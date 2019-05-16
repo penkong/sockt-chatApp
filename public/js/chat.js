@@ -1,11 +1,13 @@
 //allow to send and receive
 const socket = io();
-//receiving from server
-socket.on('countUpdated',(count)=>{
-  console.log('en updated' , count);
+// //receiving from server
+socket.on('message', msg=>{
+  console.log(msg);
 })
-//now client send data to server
-document.querySelector('#increment').addEventListener('click',()=>{
-  console.log('CXClikcd');
-  socket.emit('increment'); // send to server now must make sure sr get it
-});
+//send from client
+document.querySelector('#message-form').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  // const message = document.querySelector('input').value;
+  const message = e.target.elements.message.value;
+  socket.emit('sendMessage', message);
+})
