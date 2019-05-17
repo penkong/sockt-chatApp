@@ -9,7 +9,12 @@ document.querySelector('#message-form').addEventListener('submit',(e)=>{
   e.preventDefault();
   // const message = document.querySelector('input').value;
   const message = e.target.elements.message.value;
-  socket.emit('sendMessage', message);
+  socket.emit('sendMessage', message, (error)=>{ //arg come from cb in server
+    if(error) return console.log(error);
+
+    //acknowledge last arg
+    console.log('the message delivered.');
+  });
 })
 
 document.querySelector('#send-location').addEventListener('click',()=>{
@@ -18,6 +23,9 @@ document.querySelector('#send-location').addEventListener('click',()=>{
     socket.emit('sendLocation', {
       latitude : position.coords.latitude,
       longitude : position.coords.longitude
+    } , (error)=>{ //acknowledgement
+      if(error) return console.log(error);
+      console.log('Location Shared!')
     });
   })
 })
